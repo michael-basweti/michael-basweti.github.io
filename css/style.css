@@ -1,0 +1,353 @@
+body{
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  padding: 0;
+  margin: 0;
+  background: url("../img/background.JPG");
+}
+
+main{
+    max-width: 900px;
+    margin: auto;
+    box-shadow: 30px 0px 40px rgba(0, 0, 0, 0.4),
+    -30px 0px 40px rgba(0, 0, 0, 0.4); 
+}
+
+.container{
+  width: 80%;
+  margin: auto;
+  overflow: hidden;
+}
+.container-big{
+  width: 95%;
+  margin: auto;
+  overflow: hidden;
+}
+ul{
+ margin: 0;
+}
+
+form input,textarea{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 5px;
+  }
+
+.col-form{
+    padding: 15px;
+    background: #ffffff;
+    color: black;
+    width: 40%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.col{
+    padding: 15px;
+    background: #ffffff;
+    color: black;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.btn{
+    padding: 0.5rem 2rem;
+    border: 1px #ccc solid;
+    display: inline-block;
+    margin: 2rem 0 0;
+    border-radius: 50px;
+    text-decoration: none;
+    background: #ffffff;
+    color: #0f0f0f;
+    
+    transition: background 500ms ease;
+}
+/*btn delete*/
+
+.btn-delete{
+    padding: 0.5rem 2rem;
+    border: 1px #ccc solid;
+    display: inline-block;
+    
+    border-radius: 50px;
+    text-decoration: none;
+    background: #fa0404;
+    color: #0f0f0f;
+    transition: background 500ms ease;
+}
+.btn-detail{
+    padding: 0.5rem 2rem;
+    border: 1px #ccc solid;
+    display: inline-block;
+    
+    border-radius: 50px;
+    text-decoration: none;
+    background: #04fa39;
+    color: #0f0f0f;
+    transition: background 500ms ease;
+}
+.btn-edit{
+    padding: 0.5rem 2rem;
+    border: 1px #ccc solid;
+    display: inline-block;
+    
+    border-radius: 50px;
+    text-decoration: none;
+    background: #6f04fa;
+    color: #0f0f0f;
+    transition: background 500ms ease;
+}
+.btn-share{
+    padding: 0.5rem 2rem;
+    display: inline-block;
+    text-decoration: none;
+    background: url(../img/share.png) no-repeat;
+    color: #0f0f0f;
+    transition: background 500ms ease;
+}
+
+/*toggle switch*/
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+/*header*/
+
+header{
+  background:white;
+  color: black;
+    padding-top: 10px;
+  min-height: 50px;
+  
+}
+
+header a{
+  color: #0f0f0f;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 16px;
+}
+
+header li{
+  float: left;
+  display: inline;
+  padding: 0 20px 0 20px;
+}
+
+header #brand{
+  float: left;
+}
+
+header #brand h1{
+  margin: 0;
+}
+
+header nav{
+  float: right;
+  margin-top: 0px;
+}
+
+
+
+header a:hover{
+  color: black;
+  font-weight: bold;
+}
+
+/*showcase*/
+
+#section1-brand{
+  display: flex;
+  min-height: 100vh;
+  background: url('../img/diary.jpg') no-repeat  100% ;
+  text-align: center;
+  color: #ffffff;
+
+}
+#section1-brand:after {
+  content: "";
+  position: fixed;
+  top: 0; bottom: 0; left: 0; right: 0; 
+  background: rgba(0,0,0,0.1);
+  pointer-events: none;
+}
+
+#section1-brand h1{
+  margin-top: 100px;
+  font-size: 55px;
+  margin-bottom: 10px;
+}
+
+#section1-brand p{
+  font-size: 30px;
+}
+
+#section1-brand nav{
+  float: right;
+  margin-top: 0px;
+}
+
+
+#section1-brand li{
+  float: left;
+  display: inline;
+  padding: 0 20px 0 20px;
+}
+#section1-brand .btn{
+  color: #0f0f0f;
+}
+
+#section1-brand a{
+  color: #ffffff;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 16px;
+}
+#section-brand .btn{
+    background: #ccc;
+    color: #0f0f0f;
+}
+
+/*grid*/
+#grid{
+  margin-top: 20px;
+}
+
+#grid .col{
+  float: left;
+  width: 29.5%;
+  text-align: center;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+#grid .col img{
+  width: 100%;
+  object-fit: cover; width:230px;height:230px;
+}
+
+/*login section*/
+
+#login-section .col-form{
+    position:fixed;
+    top: 50%;
+    left: 50%;
+    width:30em;
+    height:18em;
+    margin-top: -9em; /*set to a negative number 1/2 of your height*/
+    margin-left: -15em; /*set to a negative number 1/2 of your width*/
+    
+    
+}
+#register-section .col-form{
+    position:fixed;
+    top: 30%;
+    left: 50%;
+    width:30em;
+    height:40em;
+    margin-top: -9em; /*set to a negative number 1/2 of your height*/
+    margin-left: -15em; /*set to a negative number 1/2 of your width*/
+    
+    
+}
+
+/*dashboard table*/
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+/*profile*/
+#profile .col{
+    text-align: left
+}
+aside#sidebar{
+  float: right;
+  width: 30%;
+  margin-top: 10px;
+}
+
+
+article#main-col{
+  float: left;
+  width: 65%;
+}
+
+#profile aside img{
+    width: 100%;
+    object-fit: cover; width:230px;height:230px;
+}
+
+@media(max-width: 768px){
+   #register-section .col-form,
+   #grid .col{
+    float: none;
+    text-align: center;
+    width: 100%;
+    }
+}
