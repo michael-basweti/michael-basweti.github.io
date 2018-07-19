@@ -11,7 +11,7 @@ entries = [
     {
         'id': 1,
         'title': u'Buy groceries',
-        'description': u'Milk, Cheese, Pizza, Fruit, Tylenol',
+        'description': u'Buy from Gikomba',
         
     }
 ]
