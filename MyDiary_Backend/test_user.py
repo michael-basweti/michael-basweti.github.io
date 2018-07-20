@@ -4,7 +4,7 @@ import os
 import pytest
 from flask import Flask
 from nose.tools import assert_true
-from main import app
+from manage import app
 from flask_testing import TestCase
 import requests
 
