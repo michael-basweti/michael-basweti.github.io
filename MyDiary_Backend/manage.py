@@ -30,14 +30,14 @@ def make_public_entry(entry):
     return new_entry
 
 
-@app.route('/mydiary/api/v1.0/entries/get', methods=['GET'])
+@app.route('/mydiary/api/v1/entries/get', methods=['GET'])
 @swag_from('colors.yml')
 def get_entries():
    
     return jsonify({'entries': [make_public_entry(entry) for entry in entries]})
 
 
-@app.route("/mydiary/api/v1.0/entries/get/<int:entry_id>")
+@app.route("/mydiary/api/v1/entries/get/<int:entry_id>")
 
 def get_entry(entry_id):
     """
@@ -73,7 +73,7 @@ def get_entry(entry_id):
     return jsonify({'entry': make_public_entry(entry[0])})
 
 
-@app.route("/mydiary/api/v1.0/entries/post", methods=['POST'])
+@app.route("/mydiary/api/v1/entries/post", methods=['POST'])
 
 def create_entry():
     """
@@ -118,7 +118,7 @@ def create_entry():
     return jsonify({'entry': make_public_entry(entry) }), 201
 
 
-@app.route('/mydiary/api/v1.0/entries/edit/<int:entry_id>', methods=['PUT'])
+@app.route('/mydiary/api/v1/entries/edit/<int:entry_id>', methods=['PUT'])
 def update_entry(entry_id):
     """
     edit post by id.
@@ -154,7 +154,7 @@ def update_entry(entry_id):
         {entry: {
         "description": "egg, Cheese, Pizza, Fruit, Hgahchjkadhjk",
         "title": "Buy lunch",
-        "uri": "http://127.0.0.1:5000/mydiary/api/v1.0/entries/get/1"}
+        "uri": "http://127.0.0.1:5000/mydiary/api/v1/entries/get/1"}
         }
     
         
@@ -180,7 +180,7 @@ def update_entry(entry_id):
     return jsonify({'entry': make_public_entry(entry[0])})
 
 
-@app.route('/mydiary/api/v1.0/entries/delete/<int:entry_id>', methods=['DELETE'])
+@app.route('/mydiary/api/v1/entries/delete/<int:entry_id>', methods=['DELETE'])
 def delete_entry(entry_id):
     """
     delete entry by id
