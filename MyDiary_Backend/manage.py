@@ -27,7 +27,7 @@ def make_public_entry(entry):
     return new_entry
 
 
-@app.route('https://my-diary-basweti.herokuapp.com/mydiary/api/v1.0/entries/get', methods=['GET'])
+@app.route('/', methods=['GET'])
 def get_entries():
     """
     function  to return all entries
