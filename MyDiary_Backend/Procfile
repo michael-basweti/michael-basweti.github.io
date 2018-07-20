@@ -1,2 +1,2 @@
-web: gunicorn app:manage
+web: gunicorn app:MyDiary_Backend
 release: python manage.py db upgrade
