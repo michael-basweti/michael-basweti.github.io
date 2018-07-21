@@ -10,14 +10,14 @@ from flasgger import swag_from
 app = Flask(__name__) #pylint: disable=invalid-name
 swagger = Swagger(app) #pylint: disable=invalid-name
 
-entries = [
+entries = [#pylint: disable=invalid-name
     {
         'id': 1,
         'title': u'Buy groceries',
         'description': u'Buy from Gikomba',
 
     }
-]#pylint: disable=invalid-name
+]
 
 
 def make_public_entry(entry):
