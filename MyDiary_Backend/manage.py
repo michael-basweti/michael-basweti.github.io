@@ -7,8 +7,8 @@ from flask import Flask, jsonify, abort, request, url_for, redirect
 from flasgger import Swagger
 from flasgger import swag_from
 
-app = Flask(__name__)
-swagger = Swagger(app)
+app = Flask(__name__) #pylint: disable=invalid-name
+swagger = Swagger(app) #pylint: disable=invalid-name
 
 entries = [
     {
