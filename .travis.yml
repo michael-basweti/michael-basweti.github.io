@@ -6,3 +6,5 @@ python:
     - 3.5
     - 3.6
 
+install:
+  -pip install -r MyDiary_Backend/requirements.txt
