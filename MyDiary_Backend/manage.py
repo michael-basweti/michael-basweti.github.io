@@ -17,7 +17,7 @@ entries = [
         'description': u'Buy from Gikomba',
 
     }
-]
+]#pylint: disable=invalid-name
 
 
 def make_public_entry(entry):
@@ -65,7 +65,7 @@ def get_entry(entry_id):
         description: OK.
     """
     entry = [entry for entry in entries if entry['id'] == entry_id]
-    if len(entry) == 0:
+    if len(entry) == 0:#pylint: disable=len-as-condition
         abort(404)
     return jsonify({'entry': make_public_entry(entry[0])})
 
@@ -145,14 +145,14 @@ def update_entry(entry_id):
         }
     """
     entry = [entry for entry in entries if entry['id'] == entry_id]
-    if len(entry) == 0:
+    if len(entry) == 0:#pylint: disable=len-as-condition
         abort(404)
     if not request.json:
         abort(400)
-    if 'title' in request.json and type(request.json['title']) != unicode:
+    if 'title' in request.json and type(request.json['title']) != unicode:#pylint: disable=unidiomatic-typecheck
         abort(400)
     if 'description' in request.json \
-            and type(request.json['description']) is not unicode:
+            and type(request.json['description']) is not unicode:#pylint: disable=unidiomatic-typecheck
         abort(400)
     entry[0]['title'] = request.json.get('title', entry[0]['title'])
     entry[0]['description'] = request.json.get('description',
@@ -182,7 +182,7 @@ def delete_entry(entry_id):
         description: OK.
     """
     entry = [entry for entry in entries if entry['id'] == entry_id]
-    if len(entry) == 0:
+    if len(entry) == 0:#pylint: disable=len-as-condition
         abort(404)
     entries.remove(entry[0])
     return jsonify({'result': True})
