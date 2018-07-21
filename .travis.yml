@@ -8,6 +8,7 @@ python:
 
 install:
   - pip install codecov
+  -pip install -r Mydiary_Backend/requirements.txt
 
 # run scripts
 script:
