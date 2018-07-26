@@ -39,6 +39,8 @@ parser = reqparse.RequestParser()
 parser.add_argument('title', help = 'This field cannot be blank')
 parser.add_argument('body', help = 'This field cannot be blank')
 
+
+
 @api.route('/')
 
 class Entry(Resource):  # pylint: disable=no-self-use
@@ -56,6 +58,7 @@ class Entry(Resource):  # pylint: disable=no-self-use
         return all posts
         :return:
         """
+        print("user_id :"+current_user[0])
         return Articles
 
     @api.doc(responses={
@@ -73,10 +76,12 @@ class Entry(Resource):  # pylint: disable=no-self-use
         save a post
         :return:
         """
+        id1= current_user.id
         data = parser.parse_args()
         title = data['title'],
         body =data['body'],
-        user_id = current_user[0]
+        user_id = id1
+        
         
 
         cur = conn.cursor()

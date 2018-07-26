@@ -42,8 +42,10 @@ def token_required(f):
         try:
             data = jwt.decode(token,app.config['SECRET_KEY'])
             cur = conn.cursor()
-            current_user =  cur.execute("SELECT * FROM users WHERE public_id = %s",data['public_id'])
-            cur.fetchone()
+    
+            cur.execute("SELECT * FROM users WHERE public_id = %s",[data['public_id']])
+            current_user = cur.fetchone()
+            print("hello"+current_user[3]) 
         except:
             return {'message':'token is invalid'},401
         return f(current_user,*args,**kwargs)
@@ -99,6 +101,7 @@ class UserLogin(Resource):
             if check_password_hash(password,password_candidate):
                 
                 token = jwt.encode({'public_id':public_id,'exp':datetime.datetime.utcnow()+datetime.timedelta(minutes=30 )},app.config['SECRET_KEY'])
+                
                 return {'token':token.decode('UTF-8')}
             else:
                 return {'message':'wrong password'}
