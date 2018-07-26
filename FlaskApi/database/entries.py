@@ -8,7 +8,7 @@ cur.execute('''CREATE TABLE entries
 (ID SERIAL PRIMARY KEY NOT NULL,
 TITLE VARCHAR NOT NULL,
 BODY TEXT NOT NULL,
-USER_ID VARCHAR NOT NULL);''')
+USER_ID INT NOT NULL);''')
 print ("Table created successfully")
 conn.commit()
 conn.close()

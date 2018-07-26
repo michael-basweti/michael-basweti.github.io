@@ -1,8 +1,9 @@
 """
 nose tests for the api
 """
-from nose.tools import assert_true,assert_false
 import requests
+from nose.tools import assert_true,assert_false
+
 
 
 def test_get_all():
