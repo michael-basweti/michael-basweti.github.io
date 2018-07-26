@@ -3,10 +3,28 @@ Entry endpoints for edit,delete,update and get
 developed by basweti
 """
 # pylint: skip-file
-from flask_restplus import Namespace, Resource, fields
+from flask import Flask,request
+from flask_restplus import Namespace, Resource, fields, reqparse
 from database.db import article
+from models.entry_model import Dict
+import psycopg2
+from .user import token_required
 
+
+app = Flask(__name__)  # pylint: disable=invalid-name
+app.config['SECRET_KEY'] = 'thisismysecretkeynigga'
+
+conn = psycopg2.connect(database="mydiary", user="postgres", password="trizabas2017",
+host="127.0.0.1", port="5432")
 api = Namespace('Diary Entry', description='operations that can be performed on the diary')  # pylint: disable=invalid-name
+
+authorizations ={
+    'apiKey':{
+        'type':'apiKey',
+        'in':'header',
+        'name':'x-access-token'
+    }
+}
 
 entry = api.model('Article', {  # pylint: disable=invalid-name
     'id': fields.Integer(required=True, description='article identifier'),
@@ -17,23 +35,23 @@ entry = api.model('Article', {  # pylint: disable=invalid-name
 
 Articles = article()  # pylint: disable=invalid-name
 
-parser = api.parser()  # pylint: disable=invalid-name
-parser.add_argument('title', type=str, required=True, help='title',
-                    location='form')  # pylint: disable=missing-docstring
-parser.add_argument('body', required=True, help='description', type=str, location='form')
-
+parser = reqparse.RequestParser()
+parser.add_argument('title', help = 'This field cannot be blank')
+parser.add_argument('body', help = 'This field cannot be blank')
 
 @api.route('/')
+
 class Entry(Resource):  # pylint: disable=no-self-use
     """
     get the endpoints that don't have Ids at the end
     """
-
+    @token_required
     @api.doc(responses={
         200: 'Success',
         400: 'Validation Error'
     })# pylint: disable=no-self-use
-    def get(self):  # pylint: disable=no-self-use
+    
+    def get(self,current_user):  # pylint: disable=no-self-use
         """
         return all posts
         :return:
@@ -44,15 +62,28 @@ class Entry(Resource):  # pylint: disable=no-self-use
         200: 'Success',
         400: 'Validation Error'
     })
-    @api.expect(entry)
+
+    @token_required
     @api.response(400, 'Validation error')
-    @api.marshal_with(entry, code=201, description='Object created') # pylint: disable=no-self-use
-    def post(self):
+    @api.param('title', 'title')
+    @api.param('body', 'body')
+    @api.doc(security='apiKey')
+    def post(self,current_user):
         """
         save a post
         :return:
         """
-        Articles.append(api.payload)
+        data = parser.parse_args()
+        title = data['title'],
+        body =data['body'],
+        user_id = current_user[0]
+        
+
+        cur = conn.cursor()
+        cur.execute("INSERT INTO entries (TITLE,BODY,USER_ID) \
+        VALUES (%s,%s,%s)",(title,body,user_id));
+        conn.commit()
+        print ("Records created successfully")
         return {'result': 'language added'}, 201
 
 
