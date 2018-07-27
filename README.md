@@ -15,3 +15,12 @@ This is a backend API for a diary where one can be able to make entries for each
 | POST    | http://127.0.0.1:5000/v1/entries/          |  Creates a new diary entry       |
 | PUT     | http://127.0.0.1:5000/v1/entries/<int:id>  |   Modifies an entry              |
 | DELETE  | http://127.0.0.1:5000/v1/entries/<int:id>  |   Deletes an entry from my Diary |
+
+
+## USAGE
+
+```
+function test() {
+  console.log("notice the blank line before this function?");
+}
+```
