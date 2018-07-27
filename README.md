@@ -30,5 +30,12 @@ in the command create virtual env using the following commands
 
 vitualenv venv
 
+activate the environment:
+
+venv/Scripts/activate   #windows guys
+venv/bin/activate  #linux guys
+
+
+
 
 ```
