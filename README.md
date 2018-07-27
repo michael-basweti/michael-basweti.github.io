@@ -3,6 +3,9 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)](https://codeclimate.com/github/codeclimate/codeclimate/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/test_coverage)](https://codeclimate.com/github/codeclimate/codeclimate/test_coverage)
 
+## MyDiary
+This is a backend API for a diary where one can be able to make entries for each day and can get reminders to make an entry daily
+
 ## API ROUTES
 
 | Methods        | Url          | Description |
