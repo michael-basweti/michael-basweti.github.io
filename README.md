@@ -20,7 +20,15 @@ This is a backend API for a diary where one can be able to make entries for each
 ## USAGE
 
 ```
-function test() {
-  console.log("notice the blank line before this function?");
-}
+git clone https://github.com/michael-basweti/michael-basweti.github.io.git
+
+## Go into the the directory you have cloned using the following command
+
+cd michael-basweti.github.io.git
+
+in the command create virtual env using the following commands
+
+vitualenv venv
+
+
 ```
