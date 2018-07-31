@@ -23,5 +23,5 @@ api = Api(
     authorizations=authorizations
 )
 
-api.add_namespace(ns1, path='/mydiary/v1/entries')
-api.add_namespace(ns2, path='/user/v1/actions')
+api.add_namespace(ns1, path='/v1/entries')
+api.add_namespace(ns2, path='/v1/auth')

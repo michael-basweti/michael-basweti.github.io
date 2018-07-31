@@ -1,6 +1,7 @@
 from functools import wraps
 import datetime
 import uuid
+from models.UserModel import User as users
 from flask import Flask, request
 from flask_restplus import Namespace, Resource, fields, reqparse
 import psycopg2
@@ -71,13 +72,9 @@ class UserRegistration(Resource):
         email = data['email'],
         public_id = str(uuid.uuid4())
 
-        cur = conn.cursor()
-        cur.execute("INSERT INTO users (NAME,EMAIL,PASSWORD,USERNAME,PUBLIC_ID) \
-        VALUES (%s,%s,%s,%s,%s )", (name, email, password, username, public_id));
-        conn.commit()
-        print("Records created successfully")
+        registered = users.register(name=name,username=username,password=password,email=email,public_id=public_id)
+        return registered
 
-        return {'message': 'user created'}
 
 
 @api.route('/login')
@@ -116,14 +113,6 @@ class UserLogin(Resource):
             return {'message': 'user does not exist'}
 
 
-@api.route('/logout')
-class UserLogoutRefresh(Resource):
-    def post(self):
-        """
-        user logout
-        """
-        return {'message': 'User logout'}
-
 
 @api.param('id', 'id')
 @api.param('username', 'username')
@@ -142,12 +131,8 @@ class UpdateResource(Resource):
         name = data['name'],
         email = data['email'],
 
-        cur = conn.cursor()
-        cur.execute("UPDATE users SET username = %s,email = %s,name = %s,password = %s WHERE id = %s",
-                    (username, email, name, password, id));
-        conn.commit()
-
-        return {'message': 'user updated'}
+        update_users = users.update_user(username=username, email=email, name=name, password=password, id=id)
+        return update_users
 
 
 @api.route('/users')
@@ -156,32 +141,21 @@ class AllUsers(Resource):
         """
         Get all users
         """
-        cur = conn.cursor()
-        cur.execute("SELECT id, name, email, password, username,public_id from users")
-        rows = cur.fetchall()
-        output = []
-
-        for row in rows:
-            user_data = {'id': row[0], 'name': row[1], 'email': row[2], 'password': row[3], 'username': row[4],
-                         'public_id': row[5]}
-            output.append(user_data)
-
-        return {'users': output}
+        all_users = users.get_all_users()
+        return all_users
 
 
-@api.route('/delete/<id>')
-@api.param('id', 'id')
-class DeleteResource(Resource):
-    @token_required
-    @api.doc(security='apiKey')
-    def delete(self, current_user, id):
-        """
-        delete a specific user
-        """
-        cur = conn.cursor()
-        cur.execute("DELETE from users where id=%s", id)
-        conn.commit()
-        return {'message': 'user deleted'}
+# @api.route('/delete/<id>')
+# @api.param('id', 'id')
+# class DeleteResource(Resource):
+#     @token_required
+#     @api.doc(security='apiKey')
+#     def delete(current_user,self):
+#         """
+#         delete a specific user
+#         """
+#         delete = users.delete_user(current_user=current_user)
+#         return delete
 
 
 @api.param('id', 'id')
@@ -191,11 +165,5 @@ class GetOneResource(Resource):
         """
         Get one user according to id given
         """
-        cur = conn.cursor()
-        cur.execute("SELECT id, name, email, password, username,public_id from users WHERE id = %s", id)
-        row = cur.fetchone()
-
-        user_data = {'id': row[0], 'name': row[1], 'email': row[2], 'password': row[3], 'username': row[4],
-                     'public_id': row[5]}
-
-        return {'user': user_data}
+        one_user= users.get_one(id=id)
+        return one_user

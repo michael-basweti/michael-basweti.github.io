@@ -6,7 +6,7 @@ developed by basweti
 from flask import Flask, request
 from flask_restplus import Namespace, Resource, fields, reqparse
 from database.db import article
-from models.entry_model import Dict
+from models.UserEntry import EntryModel as entries
 import psycopg2
 from .user import token_required
 
@@ -57,16 +57,8 @@ class Entry(Resource):  # pylint: disable=no-self-use
         return all posts
         :return:
         """
-        cur = conn.cursor()
-        cur.execute("SELECT id, title, body, user_id FROM entries WHERE user_id=%s", [current_user[0]])
-        rows = cur.fetchall()
-        output = []
-
-        for row in rows:
-            entry_data = {'id': row[0], 'title': row[1], 'body': row[2], 'user_id': row[3]}
-            output.append(entry_data)
-
-        return {'entries': output}
+        all_entries = entries.get_all(current_user=current_user)
+        return all_entries
 
     @api.doc(responses={
         200: 'Success',
@@ -88,12 +80,9 @@ class Entry(Resource):  # pylint: disable=no-self-use
         body = data['body'],
         user_id = current_user[0]
 
-        cur = conn.cursor()
-        cur.execute("INSERT INTO entries (TITLE,BODY,USER_ID) \
-        VALUES (%s,%s,%s)", (title, body, user_id));
-        conn.commit()
-        print("Records created successfully")
-        return {'result': 'entry added'}, 201
+        post_entry = entries.post_entry(body=body,title = title,user_id=user_id)
+
+        return post_entry
 
 
 @api.route('/<int:id>')
@@ -108,12 +97,8 @@ class Entry_with_id(Resource):  # pylint: disable=invalid-name
         """
         get details of particular entry/post
         """
-        cur = conn.cursor()
-        cur.execute("SELECT id, title, body, user_id FROM entries WHERE user_id=%s AND id=%s", [current_user[0], id])
-        row = cur.fetchone()
-        entry_data = {'id': row[0], 'title': row[1], 'body': row[2], 'user_id': row[3]}
-
-        return {'entry': entry_data}
+        get_single = entries.get_one_entry(current_user=current_user,id=id)
+        return get_single
 
     @api.doc(security='apiKey')
     @token_required
@@ -128,12 +113,8 @@ class Entry_with_id(Resource):  # pylint: disable=invalid-name
         title = data['title'],
         body = data['body']
 
-        cur = conn.cursor()
-        cur.execute("UPDATE entries SET title = %s,body = %s WHERE id = %s AND user_id = %s",
-                    [title, body, id, current_user[0]]);
-        conn.commit()
-
-        return {'message': 'entry updated'}
+        edit = entries.edit_entry(id=id,title=title,body=body,current_user=current_user)
+        return edit
 
     @api.doc(security='apiKey')
     @token_required
@@ -142,7 +123,5 @@ class Entry_with_id(Resource):  # pylint: disable=invalid-name
         """
         delete entry
         """
-        cur = conn.cursor()
-        cur.execute("DELETE from entries where id=%s AND user_id=%s", [id, current_user[0]])
-        conn.commit()
-        return {'message': 'entry deleted'}
+        delete_entry = entries.delete_entry(id=id,current_user=current_user)
+        return delete_entry
