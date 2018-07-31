@@ -13,8 +13,8 @@ from .user import token_required
 app = Flask(__name__)  # pylint: disable=invalid-name
 app.config['SECRET_KEY'] = 'thisismysecretkeynigga'
 
-conn = psycopg2.connect(database="mydiary", user="postgres", password="trizabas2017",
-                        host="127.0.0.1", port="5432")
+conn = psycopg2.connect(database="df4keijp3j4gsn", user="cslzrgdwqphsdg", password="1f370b6b19a69f6aab5cb73d09fc1edfc4a7eee53680458d01ed498c777b1932",
+                        host="ec2-23-23-242-163.compute-1.amazonaws.com", port="5432")
 api = Namespace('Diary Entry',
                 description='operations that can be performed on the diary')  # pylint: disable=invalid-name
 
