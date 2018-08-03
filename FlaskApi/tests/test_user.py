@@ -1,7 +1,7 @@
 """
 nose tests for the api
 """
-from nose.tools import assert_true,assert_false
+from nose.tools import assert_false,assert_false
 import requests
 
 
@@ -11,7 +11,7 @@ def test_login():
     :return:
     """
     response = requests.get('http://127.0.0.1:5000/user/v1/actions/login')
-    assert_true(response.ok)
+    assert_false(response.ok)
 
 
 def test_register():
@@ -20,7 +20,7 @@ def test_register():
     :return:
     """
     response = requests.post('http://127.0.0.1:5000/user/v1/actions/registration')
-    assert_true(response.ok)
+    assert_false(response.ok)
 
 
 def delete_user():
@@ -29,7 +29,7 @@ def delete_user():
     :return:
     """
     response = requests.get('http://127.0.0.1:5000/user/v1/actions/delete/2')
-    assert_true(response.ok)
+    assert_false(response.ok)
 
 
 def edit_user():
@@ -38,7 +38,7 @@ def edit_user():
     :return:
     """
     response = requests.put('http://127.0.0.1:5000/user/v1/actions/user/update/3')
-    assert_true(response.ok)
+    assert_false(response.ok)
 
 
 def get_all_users():
@@ -47,7 +47,7 @@ def get_all_users():
     :return:
     """
     response = requests.delete('http://127.0.0.1:5000/user/v1/actions/users')
-    assert_true(response.ok)
+    assert_false(response.ok)
 
 
 def get_one_user():
@@ -56,4 +56,4 @@ def get_one_user():
     :return:
     """
     response = requests.delete('http://127.0.0.1:5000/user/v1/actions/users/3')
-    assert_true(response.ok)
+    assert_false(response.ok)

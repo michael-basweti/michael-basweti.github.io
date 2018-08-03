@@ -1,6 +1,6 @@
 import psycopg2
 from flask import Flask, request
-
+import re
 from flask_restplus import Namespace, Resource, fields, reqparse
 
 app = Flask(__name__)  # pylint: disable=invalid-name
@@ -14,12 +14,16 @@ class User():
     @staticmethod
     def register(name,email,password,public_id,username):
         cur = conn.cursor()
-        cur.execute("INSERT INTO users (NAME,EMAIL,PASSWORD,USERNAME,PUBLIC_ID) \
-        VALUES (%s,%s,%s,%s,%s )", (name, email, password, username, public_id));
-        conn.commit()
-        print("Records created successfully")
+        if not re.match(r'[^@]+@[^@]+\.[^@]+', str(email)):
+            return {"message":"email not valid"}
+        else:
+            cur.execute("INSERT INTO users (NAME,EMAIL,PASSWORD,USERNAME,PUBLIC_ID) \
+            VALUES (%s,%s,%s,%s,%s )", (name, email, password, username, public_id))
+            conn.commit()
+            print("Records created successfully")
 
-        return {'message': 'user created'}
+            return 'user created'
+
 
     @staticmethod
     def update_user(username, email, name, password, id):
@@ -42,7 +46,7 @@ class User():
                          'public_id': row[5]}
             output.append(user_data)
 
-        return {'users': output}
+        return output
 
     @staticmethod
     def get_one(id):

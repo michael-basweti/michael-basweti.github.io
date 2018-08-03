@@ -30,28 +30,33 @@ class EntryModel():
     @staticmethod
     def post_entry(title,body,user_id):
         cur = conn.cursor()
+        print(body)
         cur.execute("INSERT INTO entries (TITLE,BODY,USER_ID) \
         VALUES (%s,%s,%s)", (title, body, user_id))
         conn.commit()
         print("Records created successfully")
         return {'result': 'entry added'}, 201
+        
     @staticmethod
     def get_one_entry(current_user,id):
         cur = conn.cursor()
         cur.execute("SELECT id, title, body, user_id FROM entries WHERE user_id=%s AND id=%s", [current_user[0], id])
         row = cur.fetchone()
+        if not row:
+            return{"message":"not authorised to see the entry"},403
         entry_data = {'id': row[0], 'title': row[1], 'body': row[2], 'user_id': row[3]}
 
         return {'entry': entry_data}
 
     @staticmethod
     def edit_entry(title,body,id,current_user):
+        
         cur = conn.cursor()
-        cur.execute("UPDATE entries SET title = %s,body = %s WHERE id = %s AND user_id = %s",
-                    [title, body, id, current_user[0]])
+        cur.execute("UPDATE entries SET title = %s,body = %s WHERE id = %s AND user_id = %s",[title, body, id, current_user[0]])
+        
         conn.commit()
-
-        return {'message': 'entry updated'}
+        return {'message': 'entry updated'},200
+        
     @staticmethod
     def delete_entry(current_user,id):
         cur = conn.cursor()

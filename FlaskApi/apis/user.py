@@ -13,8 +13,8 @@ app = Flask(__name__)  # pylint: disable=invalid-name
 app.config['SECRET_KEY'] = 'thisismysecretkeynigga'
 
 api = Namespace('User', description='operations that can be performed on the user')
-conn = psycopg2.connect(database="df4keijp3j4gsn", user="cslzrgdwqphsdg", password="1f370b6b19a69f6aab5cb73d09fc1edfc4a7eee53680458d01ed498c777b1932",
-                        host="ec2-23-23-242-163.compute-1.amazonaws.com", port="5432")
+conn = psycopg2.connect(database="mydiary", user="postgres", password="trizabas2017",
+                        host="127.0.0.1", port="5432")
 
 user_model = api.model('User', {  # pylint: disable=invalid-name
     'username': fields.String(required=True, description='Username'),
@@ -55,10 +55,11 @@ def token_required(f):
 
 
 @api.route('/registration')
-@api.param('username', 'username')
-@api.param('password', 'password')
-@api.param('email', 'email')
-@api.param('name', 'name')
+# @api.param('username', 'username')
+# @api.param('password', 'password')
+# @api.param('email', 'email')
+# @api.param('name', 'name')
+@api.expect(user_model)
 @api.doc('Register')
 class UserRegistration(Resource):
     def post(self):
@@ -71,8 +72,20 @@ class UserRegistration(Resource):
         name = data['name'],
         email = data['email'],
         public_id = str(uuid.uuid4())
+        str_username = "".join(username)
+        str_name = "".join(name)
+        str_email = "".join(email)
+        str_password = "".join(password)
+        str_username.strip()
+        str_name.strip()
+        str_password.strip()
+        str_email.strip()
+        if str_username == "" and str_password == "":
+            return {"message": "field cannot be empty" }
+            if str_name.strip == "" or str_email.strip == "":
+                return {"message": "field cannot be empty" }
 
-        registered = users.register(name=name,username=username,password=password,email=email,public_id=public_id)
+        registered = users.register(name=str_name,username=str_username,password=str_password,email=str_email,public_id=public_id)
         return registered
 
 
@@ -106,19 +119,20 @@ class UserLogin(Resource):
                     {'public_id': public_id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)},
                     app.config['SECRET_KEY'])
 
-                return {'token': token.decode('UTF-8')}
+                return token.decode('UTF-8')
             else:
-                return {'message': 'wrong password'}
+                return {'message': 'wrong password'},401
         else:
-            return {'message': 'user does not exist'}
+            return {'message': 'user does not exist'},401
 
 
 
 @api.param('id', 'id')
-@api.param('username', 'username')
-@api.param('password', 'password')
-@api.param('email', 'email')
-@api.param('name', 'name')
+# @api.param('username', 'username')
+# @api.param('password', 'password')
+# @api.param('email', 'email')
+# @api.param('name', 'name')
+@api.expect(user_model)
 @api.route('/user/update/<int:id>')
 class UpdateResource(Resource):
     def put(self, id):
@@ -131,7 +145,20 @@ class UpdateResource(Resource):
         name = data['name'],
         email = data['email'],
 
-        update_users = users.update_user(username=username, email=email, name=name, password=password, id=id)
+        str_username = "".join(username)
+        str_name = "".join(name)
+        str_email = "".join(email)
+        str_password = "".join(password)
+        str_username.strip()
+        str_name.strip()
+        str_password.strip()
+        str_email.strip()
+        if str_username == "" or str_password == "" :
+            return {"message": "field cannot be empty" }
+            if str_name == "" or str_email == "":
+                 return {"message": "field cannot be empty" }
+
+        update_users = users.update_user(name=str_name,username=str_username,password=str_password,email=str_email, id=id)
         return update_users
 
 
@@ -145,17 +172,7 @@ class AllUsers(Resource):
         return all_users
 
 
-# @api.route('/delete/<id>')
-# @api.param('id', 'id')
-# class DeleteResource(Resource):
-#     @token_required
-#     @api.doc(security='apiKey')
-#     def delete(current_user,self):
-#         """
-#         delete a specific user
-#         """
-#         delete = users.delete_user(current_user=current_user)
-#         return delete
+
 
 
 @api.param('id', 'id')

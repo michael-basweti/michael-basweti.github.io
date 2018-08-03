@@ -9,12 +9,13 @@ from database.db import article
 from models.UserEntry import EntryModel as entries
 import psycopg2
 from .user import token_required
+import re
 
 app = Flask(__name__)  # pylint: disable=invalid-name
 app.config['SECRET_KEY'] = 'thisismysecretkeynigga'
 
-conn = psycopg2.connect(database="df4keijp3j4gsn", user="cslzrgdwqphsdg", password="1f370b6b19a69f6aab5cb73d09fc1edfc4a7eee53680458d01ed498c777b1932",
-                        host="ec2-23-23-242-163.compute-1.amazonaws.com", port="5432")
+conn = psycopg2.connect(database="mydiary", user="postgres", password="trizabas2017",
+                        host="127.0.0.1", port="5432")
 api = Namespace('Diary Entry',
                 description='operations that can be performed on the diary')  # pylint: disable=invalid-name
 
@@ -26,18 +27,19 @@ authorizations = {
     }
 }
 
+
+    
+
 entry = api.model('Article', {  # pylint: disable=invalid-name
-    'id': fields.Integer(required=True, description='article identifier'),
     'title': fields.String(required=True, description='Article Name'),
-    'body': fields.String(required=True, description='Article Description'),
-    'author': fields.String(required=True, description='Author Name'),
+    'body': fields.String(required=True, description='Article Description')
 })
 
 Articles = article()  # pylint: disable=invalid-name
 
 parser = reqparse.RequestParser()
-parser.add_argument('title', help='This field cannot be blank')
-parser.add_argument('body', help='This field cannot be blank')
+parser.add_argument('title',type=str,required=True,trim=True, help='This field cannot be blank')
+parser.add_argument('body',type=str,required=True,trim=True,  help='This field cannot be blank')
 
 
 @api.route('/')
@@ -66,8 +68,9 @@ class Entry(Resource):  # pylint: disable=no-self-use
     })
     @token_required
     @api.response(400, 'Validation error')
-    @api.param('title', 'title')
-    @api.param('body', 'body')
+    #@api.param('title', 'title')
+    #@api.param('body', 'body')
+    @api.expect(entry,validate=True)
     @api.doc(security='apiKey')
     def post(current_user, self):
         """
@@ -79,8 +82,14 @@ class Entry(Resource):  # pylint: disable=no-self-use
         title = data['title'],
         body = data['body'],
         user_id = current_user[0]
-
-        post_entry = entries.post_entry(body=body,title = title,user_id=user_id)
+        str_title = "".join(title)
+        str_body = "".join(body)
+        str_title.strip()
+        str_body.strip()
+        if str_title == "" or str_body == "":
+            return {"message": "field cannot be empty" }
+        
+        post_entry = entries.post_entry(body=str_body, title=str_title,user_id=user_id)
 
         return post_entry
 
@@ -102,8 +111,9 @@ class Entry_with_id(Resource):  # pylint: disable=invalid-name
 
     @api.doc(security='apiKey')
     @token_required
-    @api.param('title', 'title')
-    @api.param('body', 'body')
+    #@api.param('title', 'title')
+    #@api.param('body', 'body')
+    @api.expect(entry)
     def put(current_user, self,
             id):  # pylint: disable=invalid-name #pylint: disable=no-self-use #pylint: disable=redefined-builtin
         """
@@ -112,8 +122,13 @@ class Entry_with_id(Resource):  # pylint: disable=invalid-name
         data = parser.parse_args()
         title = data['title'],
         body = data['body']
-
-        edit = entries.edit_entry(id=id,title=title,body=body,current_user=current_user)
+        str_title = "".join(title)
+        str_body = "".join(body)
+        str_title.strip()
+        str_body.strip()
+        if str_title == "" or str_body == "":
+            return {"message": "field cannot be empty" }
+        edit = entries.edit_entry(id=id,title=str_title,body=str_body,current_user=current_user)
         return edit
 
     @api.doc(security='apiKey')
