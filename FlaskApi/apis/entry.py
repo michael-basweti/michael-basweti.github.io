@@ -10,12 +10,11 @@ from models.UserEntry import EntryModel as entries
 import psycopg2
 from .user import token_required
 import re
+import os
 
-app = Flask(__name__)  # pylint: disable=invalid-name
-app.config['SECRET_KEY'] = 'thisismysecretkeynigga'
 
-conn = psycopg2.connect(database="mydiary", user="postgres", password="trizabas2017",
-                        host="127.0.0.1", port="5432")
+
+conn = psycopg2.connect(database="mydiary",password="trizabas2017",host="127.0.0.1",port="5432",user="postgres")
 api = Namespace('Diary Entry',
                 description='operations that can be performed on the diary')  # pylint: disable=invalid-name
 
@@ -41,6 +40,11 @@ parser = reqparse.RequestParser()
 parser.add_argument('title',type=str,required=True,trim=True, help='This field cannot be blank')
 parser.add_argument('body',type=str,required=True,trim=True,  help='This field cannot be blank')
 
+pagination=reqparse.RequestParser()
+pagination.add_argument('page',type=int,required=False)
+pagination.add_argument('per_page',type=int,required=False,
+                        choices=[5,10,20,30,40,50],default=5)
+
 
 @api.route('/')
 class Entry(Resource):  # pylint: disable=no-self-use
@@ -54,6 +58,7 @@ class Entry(Resource):  # pylint: disable=no-self-use
         200: 'Success',
         400: 'Validation Error'
     })  # pylint: disable=no-self-use
+    @api.expect(pagination,validation=True)
     def get(current_user, self):  # pylint: disable=no-self-use
         """
         return all posts
@@ -84,9 +89,7 @@ class Entry(Resource):  # pylint: disable=no-self-use
         user_id = current_user[0]
         str_title = "".join(title)
         str_body = "".join(body)
-        str_title.strip()
-        str_body.strip()
-        if str_title == "" or str_body == "":
+        if not all((str_title.strip(),str_body.strip())):
             return {"message": "field cannot be empty" }
         
         post_entry = entries.post_entry(body=str_body, title=str_title,user_id=user_id)
@@ -124,9 +127,7 @@ class Entry_with_id(Resource):  # pylint: disable=invalid-name
         body = data['body']
         str_title = "".join(title)
         str_body = "".join(body)
-        str_title.strip()
-        str_body.strip()
-        if str_title == "" or str_body == "":
+        if not all((str_title.strip(),str_body.strip())):
             return {"message": "field cannot be empty" }
         edit = entries.edit_entry(id=id,title=str_title,body=str_body,current_user=current_user)
         return edit
