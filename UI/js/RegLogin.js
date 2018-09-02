@@ -17,10 +17,13 @@ const loginUser = () => {
         .then((json) => {
             console.log(json)
             if (json.message ==="wrong password"){
-                window.alert("wrong password")
+                document.getElementById('errors').style.color = 'red'
+                document.getElementById('errors').innerHTML = 'wrong password'
             }
             else if (json.message ==="user does not exist"){
-                window.alert("user does not exist")
+                document.getElementById('errors').style.color = 'red'
+                document.getElementById('errors').innerHTML = 'user does not exist'
+                
             }
             else if (json.token){
                 console.log(json.token)
@@ -159,7 +162,11 @@ const addEntry = () => {
         .then((response) => response.json())
         .then((json) => {
             console.log(json)
-            if (json.result === "entry added") {
+            if (json.message ==="field cannot be empty"){
+                document.getElementById('confirm').style.color = 'red'
+                document.getElementById('confirm').innerHTML = 'no field can be empty'
+            }
+            else if (json.result === "entry added") {
                 window.location.replace("dashboard.html")
             }
 
@@ -223,6 +230,9 @@ function updateEntry(val) {
 
             output += `
                 <div class="col">
+                <div id="confirm">
+
+                </div>
                <form >
                             <div>
                                 <label for="">Title:</label>
@@ -234,7 +244,7 @@ function updateEntry(val) {
                                 <br>
                                 <textarea  id="body" cols="30" rows="10">${data.body}</textarea>
                             </div>
-                            <button type="button"value="${data.id}" onclick="updateEditEntry(this.value)">Post</button>
+                            <button type="button"value="${data.id}" class="btn" onclick="updateEditEntry(this.value)">Post</button>
                         </form>
                 </div>
 
@@ -273,7 +283,11 @@ const updateEditEntry = (val) => {
         .then((response) => response.json())
         .then((json) => {
             console.log(json)
-            if (json.message === "entry updated") {
+            if (json.message ==="field cannot be empty"){
+                document.getElementById('confirm').style.color = 'red'
+                document.getElementById('confirm').innerHTML = 'no field can be empty'
+            }
+            else if (json.message === "entry updated") {
                 window.location.replace("dashboard.html")
             }
 
@@ -365,10 +379,12 @@ function getUser() {
                     ;
            
             console.log(user);
-            document.getElementById('output').innerHTML = output;
             document.getElementById('name').innerHTML = title;
+            document.getElementById('output').innerHTML = output;
+            
             document.getElementById('user').innerHTML = userProfile;
             document.getElementById('entries').innerHTML = entries;
+            
         })
 }
 
@@ -530,7 +546,9 @@ const editUser = () => {
 //navbar
 function login(){
     var access_token = localStorage.getItem("token")
+    console.log(window.location.href)
     if (access_token) {
+       
         let log=`
             <li>
                 <a href="dashboard.html">Dashboard</a>
@@ -546,10 +564,9 @@ function login(){
         document.getElementById('login').innerHTML = log;
         
     } else {
-        let log=`
-            <li>
-                <a href="index.html">Lainding Page</a>
-            </li>
+        if (window.location.href === "https://michael-basweti.github.io/UI/index.html") {
+            let log = `
+            
             <li>
                 <a href="login.html">SIGN IN</a>
             </li>
@@ -557,8 +574,35 @@ function login(){
                 <a href="registration.html">Sign Up</a>
             </li>
         `
+            document.getElementById('login').innerHTML = log;
+        }
+        else if (window.location.href === "https://michael-basweti.github.io/UI/login.html"){
+            let log = `
+            
+            <li>
+                <a href="index.html">home</a>
+            </li>
+            <li>
+                <a href="registration.html">Sign Up</a>
+            </li>
+        `
+            document.getElementById('login').innerHTML = log;
+        }
+        else if (window.location.href === "https://michael-basweti.github.io/UI/registration.html") {
+            let log = `
+            
+            <li>
+                <a href="index.html">home</a>
+            </li>
+            <li>
+                <a href="login.html">Sign in</a>
+            </li>
+        `
+            document.getElementById('login').innerHTML = log;
+        }
         
-        document.getElementById('login').innerHTML = log;
+        
+        
         
     }
     

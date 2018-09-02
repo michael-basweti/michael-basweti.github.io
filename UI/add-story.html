@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="./css/style.css">
 </head>
 
-<body onload="addEntry()">
+<body onload="getUser()">
     
     <main>
         <header>
@@ -39,7 +39,9 @@
         </header>
         <div class="container">
             <section>
-                <h1>Hello Mike..</h1>
+                <div id="name">
+
+                </div>
                 <hr>
             </section>
             <section id="Profile">
@@ -47,6 +49,9 @@
                     <div class="col">
                         <h2>Add A Story</h2>
                         <hr>
+                        <div id="confirm">
+
+                        </div>
                         <form action="" method="post">
                             <div>
                                 <label for="">Title:</label><br>
@@ -56,7 +61,7 @@
                                 <label for="">Story</label><br>
                                 <textarea name="" placeholder="Story" id="body" cols="30" rows="10"></textarea>
                             </div>
-                            <button type="button" onclick="addEntry()">Post</button>
+                            <button type="button" class="btn" onclick="addEntry()">Post</button>
                         </form>
                     </div>   
                 </article>
