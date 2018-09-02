@@ -166,6 +166,10 @@ const addEntry = () => {
                 document.getElementById('confirm').style.color = 'red'
                 document.getElementById('confirm').innerHTML = 'no field can be empty'
             }
+            else if (json.message ==="the post already exists"){
+                document.getElementById('confirm').style.color = 'red'
+                document.getElementById('confirm').innerHTML = 'You have an entry with the same title'
+            }
             else if (json.result === "entry added") {
                 window.location.replace("dashboard.html")
             }
