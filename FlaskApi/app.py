@@ -5,7 +5,7 @@ from flask import Flask
 from flask_cors import CORS
 from apis import api
 
-app = Flask(__name__)  # pylint: disable=invalid-name
+app = Flask(__name__)  # pylint: disable=invalid
 CORS(app)
 api.init_app(app)
 
