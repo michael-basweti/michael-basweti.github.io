@@ -15,7 +15,7 @@ const loginUser = () => {
     })
         .then((response) => response.json())
         .then((json) => {
-            console.log(json)
+            //console.log(json)
             if (json.message ==="wrong password"){
                 document.getElementById('errors').style.color = 'red'
                 document.getElementById('errors').innerHTML = 'wrong password'
@@ -26,7 +26,7 @@ const loginUser = () => {
                 
             }
             else if (json.token){
-                console.log(json.token)
+                //console.log(json.token)
                 window.location.replace("dashboard.html")
                 localStorage.setItem("token",json.token)
                 
@@ -57,7 +57,7 @@ const addUser = () => {
     })
         .then((response) => response.json())
         .then((json) => {
-            console.log(json)
+            //console.log(json)
             if (json.message === "Password should be 6 characters and above") {
                 document.getElementById('nomatch').style.color = 'red'
                 document.getElementById('nomatch').innerHTML = 'password should be 6 characters or more'
@@ -110,7 +110,7 @@ function getEntry(){
         .then(response => response.json())
         .then(data => {
             let output = `<h2>Welcome </h2>`;
-            console.log(data);
+            //console.log(data);
             
             data.forEach(function (entry) {
                 
