@@ -135,7 +135,7 @@ function getEntry(){
                     `
                     ;
             });
-            console.log(data);
+            //console.log(data);
             document.getElementById('output').innerHTML = output;
         })
 }
@@ -161,7 +161,7 @@ const addEntry = () => {
     })
         .then((response) => response.json())
         .then((json) => {
-            console.log(json)
+            //console.log(json)
             if (json.message ==="field cannot be empty"){
                 document.getElementById('confirm').style.color = 'red'
                 document.getElementById('confirm').innerHTML = 'no field can be empty'
@@ -180,7 +180,7 @@ const addEntry = () => {
 
 function getOneEntry(val) {
     var access_token = localStorage.getItem("token")
-    console.log(val)
+    //console.log(val)
     fetch(`https://mydiary-basweti.herokuapp.com/v1/entries/${val}`,{
         headers: {
             "x-access-token": access_token
@@ -190,7 +190,7 @@ function getOneEntry(val) {
         .then(response => response.json())
         .then(data => {
             let output = '<td><a href="dashboard.html" class="btn">back</a></td>';
-            console.log(data);
+            //console.log(data);
               
                 output += `
                 <div class="col">
@@ -211,14 +211,14 @@ function getOneEntry(val) {
                     `
                     ;
             
-            console.log(data);
+            //console.log(data);
             document.getElementById('output').innerHTML = output;
         })
 }
 
 function updateEntry(val) {
     var access_token = localStorage.getItem("token")
-    console.log(val)
+    //console.log(val)
     fetch(`https://mydiary-basweti.herokuapp.com/v1/entries/${val}`, {
         
        
@@ -230,7 +230,7 @@ function updateEntry(val) {
         .then(response => response.json())
         .then(data => {
             let output = '<td><a href="dashboard.html" class="btn">back</a></td>';
-            console.log(data);
+            //console.log(data);
 
             output += `
                 <div class="col">
@@ -262,7 +262,7 @@ function updateEntry(val) {
 
                 ;
 
-            console.log(data);
+            //console.log(data);
             document.getElementById('output').innerHTML = output;
         })
         
@@ -286,7 +286,7 @@ const updateEditEntry = (val) => {
     })
         .then((response) => response.json())
         .then((json) => {
-            console.log(json)
+            //console.log(json)
             if (json.message ==="field cannot be empty"){
                 document.getElementById('confirm').style.color = 'red'
                 document.getElementById('confirm').innerHTML = 'no field can be empty'
@@ -315,7 +315,7 @@ const DeleteEntry = (val) => {
             })
                 .then((response) => response.json())
                 .then((json) => {
-                    console.log(json)
+                    //console.log(json)
                     if (json.message === "entry deleted") {
                         window.location.replace("dashboard.html")
                         window.alert("Entry Deleted")
@@ -366,7 +366,7 @@ function getUser() {
             let entries = `<h2>No of Entries...</h2>
                         <code><h2>${user.entries} <i>entries so far...</i></h2> </code>`
             
-            console.log(user);
+            //console.log(user);
 
             
 
@@ -382,7 +382,7 @@ function getUser() {
                     `
                     ;
            
-            console.log(user);
+            //console.log(user);
             document.getElementById('name').innerHTML = title;
             document.getElementById('output').innerHTML = output;
             
@@ -409,7 +409,7 @@ const DeleteAccount = () => {
         })
             .then((response) => response.json())
             .then((json) => {
-                console.log(json)
+                //console.log(json)
                 if (json.message === "user deleted") {
                     window.location.replace("registration.html")
                     window.alert("Your account has been Deleted")
@@ -437,7 +437,7 @@ function getEditingInfor() {
         .then(response => response.json())
         .then(user => {
             let output = `<h4>Here is Your Profile <i>${user.username}</i></h4>`;
-            console.log(user);
+            //console.log(user);
             output += `<div id="nomatch">
                             
                         </div>
@@ -475,7 +475,7 @@ function getEditingInfor() {
                     `
                 ;
 
-            console.log(user);
+            //console.log(user);
             document.getElementById('output').innerHTML = output;
             
         })
@@ -507,7 +507,7 @@ const editUser = () => {
         })
             .then((response) => response.json())
             .then((json) => {
-                console.log(json)
+                //console.log(json)
                 if (json.message === "Password should be 6 characters and above") {
                     document.getElementById('nomatch').style.color = 'red'
                     document.getElementById('nomatch').innerHTML = 'password should be 6 characters or more'
@@ -550,7 +550,7 @@ const editUser = () => {
 //navbar
 function login(){
     var access_token = localStorage.getItem("token")
-    console.log(window.location.href)
+    //console.log(window.location.href)
     if (access_token) {
        
         let log=`
