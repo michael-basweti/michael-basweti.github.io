@@ -1,0 +1,28 @@
+Example endpoint returning one entry according to the entry given
+In this example the specification is taken from external YAML file
+---
+parameters:
+  - name: entry
+    in: path
+    type: string
+    text: ["http://127.0.0.1:5000/mydiary/api/v1.0/entries/get/1"]
+    required: true
+    default: http://127.0.0.1:5000/mydiary/api/v1.0/entries/get/1
+definitions:
+  entry:
+    type: object
+    properties:
+      palette_name:
+        type: array
+        
+  Title:
+    type: string
+responses:
+  200:
+    description:  A list of all entries
+    schema:
+      $ref: '#/definitions/Palette'
+    examples:
+      entries: [{"description": "Buy from Gikomba",
+      "title": "Buy groceries",
+      "uri": "http://127.0.0.1:5000/mydiary/api/v1.0/entries/get/1"}]
