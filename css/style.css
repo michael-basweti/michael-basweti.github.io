@@ -344,13 +344,8 @@ article#main-col{
 }
 
 @media(max-width: 768px){
-    header #brand,
-  header nav,
-  header nav li,
    #register-section .col-form,
-   #grid .col,
-   article#main-col,
-   aside#sidebar{
+   #grid .col{
     float: none;
     text-align: center;
     width: 100%;
